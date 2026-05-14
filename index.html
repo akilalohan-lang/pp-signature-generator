@@ -556,7 +556,7 @@ function syntaxHighlight(raw){
   const tokenRe = /(<(?:[^"'>]|"[^"]*"|'[^']*')*>)/g;
   const parts = raw.split(tokenRe);
   return parts.map(part => {
-    if(!part.startsWith('<')) return `<span style="color:#94a3b8">${esc(part)}</span>`;
+    if(!part.startsWith('<')) return `<span style="color:#e2e8f0">${esc(part)}</span>`;
     const isClose = part.startsWith('</');
     const isSelf  = part.endsWith('/>');
     const inner   = part.slice(isClose?2:1, isSelf?-2:-1).trim();
@@ -567,17 +567,17 @@ function syntaxHighlight(raw){
     let coloredRest='', lastIdx=0, am;
     while((am=attrRe.exec(rest))!==null){
       coloredRest += esc(rest.slice(lastIdx, am.index+am[1].length));
-      coloredRest += `<span style="color:#818cf8">${am[2]}</span>`;
+      coloredRest += `<span style="color:#fbbf24">${am[2]}</span>`;
       coloredRest += `<span style="color:#6b7280">=</span>`;
-      coloredRest += `<span style="color:#60a5fa">&quot;${esc(am[4].slice(1,-1))}&quot;</span>`;
+      coloredRest += `<span style="color:#4ade80">&quot;${esc(am[4].slice(1,-1))}&quot;</span>`;
       lastIdx = am.index+am[0].length;
     }
     coloredRest += esc(rest.slice(lastIdx));
     return [
-      `<span style="color:#6b7280">&lt;${isClose?'/':''}</span>`,
+      `<span style="color:#60a5fa">&lt;${isClose?'/':''}</span>`,
       `<span style="color:#c084fc;font-weight:600">${esc(name)}</span>`,
       coloredRest,
-      isSelf?`<span style="color:#6b7280">/&gt;</span>`:`<span style="color:#6b7280">&gt;</span>`,
+      isSelf?`<span style="color:#60a5fa">/&gt;</span>`:`<span style="color:#60a5fa">&gt;</span>`,
     ].join('');
   }).join('');
 }
