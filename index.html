@@ -351,6 +351,10 @@ body{min-height:100vh}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           Copy for Outlook
         </button>
+        <button class="btn btn-outline" onclick="copyForAppleMail()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4z"/><path d="M4 4l8 9 8-9"/></svg>
+          Copy for Apple Mail
+        </button>
         <button class="btn btn-ghost" onclick="toggleCode()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           HTML
@@ -668,6 +672,12 @@ async function copyForGmail(){
 async function copyForOutlook(){
   await copyForGmail();
   showToast('Copied! Open Outlook → Settings → Signature and paste');
+}
+
+// Copy for Apple Mail
+async function copyForAppleMail(){
+  await copyForGmail();
+  showToast('Copied! Open Mail → Settings → Signatures and paste (⌘V)');
 }
 
 async function copyHtmlSource(){
