@@ -194,12 +194,7 @@ body{min-height:100vh}
 
 <header class="header">
   <a class="header-brand" href="https://www.purchaseplus.com" target="_blank">
-    <img class="header-logo" src="https://cdn.prod.website-files.com/63d9f60b43f95d38d9f5bac3/63d9f60b43f95d38d9f5bac9_purchaseplus-logo.svg" alt="PurchasePlus"
-      onerror="this.onerror=null;this.src='';this.parentNode.querySelector('.logo-fallback').style.display='flex'">
-    <span class="logo-fallback" style="display:none;align-items:center;gap:6px;font-weight:700;font-size:16px">
-      <span style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#a956ff,#3766fe);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700">P</span>
-      PurchasePlus
-    </span>
+    <img class="header-logo" src="https://cdn.prod.website-files.com/62b4fd72b25b1bcbcba262e8/62b50208b9104c08661c1b2e_logo-horizontal-web.svg" alt="PurchasePlus">
     <span class="header-sep"></span>
     <span class="header-title">Email Signature Generator</span>
   </a>
@@ -316,8 +311,9 @@ body{min-height:100vh}
 <div class="toast" id="toast"></div>
 
 <script>
-const LOGO_URL = "https://lh3.googleusercontent.com/d/1YvOLCO40WBvw6B7Z-OU-A4lK2WbfKdkN";
-const BADGES_URL = "https://lh3.googleusercontent.com/d/1y46SNpEvdKOwt5RzNq43HQibzCOjXFoV";
+const LOGO_URL = "https://cdn.prod.website-files.com/62b4fd72b25b1bcbcba262e8/62b50208b9104c08661c1b2e_logo-horizontal-web.svg";
+const PCI_BADGE_URL = "https://akilalohan-lang.github.io/pp-signature-generator/pci-badge.svg";
+const AICPA_BADGE_URL = "https://akilalohan-lang.github.io/pp-signature-generator/aicpa-badge.svg";
 
 const GRAD = "background:linear-gradient(90deg,#a956ff,#7c5dff,#3766fe);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#7c5dff";
 const GRAD_BG = "background:linear-gradient(90deg,#a956ff,#7c5dff,#3766fe)";
@@ -388,7 +384,10 @@ function generateHtml(data){
     ${address}
     ${topRow}
     ${social}
-    <div style="margin:0 0 12px"><img src="${BADGES_URL}" width="200" height="31" alt="Certifications" style="display:block;border:0"></div>
+    <div style="margin:0 0 12px">
+      <img src="${PCI_BADGE_URL}" width="60" height="30" alt="PCI DSS" style="display:inline-block;border:0;vertical-align:middle;margin-right:8px">
+      <img src="${AICPA_BADGE_URL}" width="40" height="30" alt="AICPA SOC" style="display:inline-block;border:0;vertical-align:middle">
+    </div>
     <div style="border-top:1px solid #dbdedd;padding-top:8px;margin-top:8px;max-width:560px">
       <span style="color:#a9a9a9;font-size:11px">The contents of this email are confidential to the ordinary user of the email address to which it was addressed and may also be privileged. If you are not the addressee of this email you may not copy, forward, disclose or otherwise use it or any part of it in any form whatsoever. If you have received this email in error please email the sender by replying to this message.</span>
     </div>
