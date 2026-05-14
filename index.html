@@ -509,6 +509,80 @@ const PHONES = [
   ["UK",    "tel:+442045387068", "+44 204 538 7068"],
 ];
 
+// Country data: dial code → { cc, trunk prefix to strip, digit chunk groups }
+const COUNTRY_DATA = {
+  '+61':  {cc:'AU', trunk:'0', chunks:[3,3,3]},
+  '+64':  {cc:'NZ', trunk:'0', chunks:[2,3,4]},
+  '+1':   {cc:'US', trunk:null,chunks:[3,3,4]},
+  '+1-CA':{cc:'CA', trunk:null,chunks:[3,3,4]},
+  '+44':  {cc:'UK', trunk:'0', chunks:[4,3,4]},
+  '+66':  {cc:'TH', trunk:'0', chunks:[2,3,4]},
+  '+65':  {cc:'SG', trunk:null,chunks:[4,4]},
+  '+60':  {cc:'MY', trunk:'0', chunks:[2,4,4]},
+  '+852': {cc:'HK', trunk:null,chunks:[4,4]},
+  '+91':  {cc:'IN', trunk:'0', chunks:[5,5]},
+  '+971': {cc:'AE', trunk:'0', chunks:[2,3,4]},
+  '+81':  {cc:'JP', trunk:'0', chunks:[3,4,4]},
+  '+82':  {cc:'KR', trunk:'0', chunks:[2,4,4]},
+  '+86':  {cc:'CN', trunk:null,chunks:[3,4,4]},
+  '+62':  {cc:'ID', trunk:'0', chunks:[3,4,4]},
+  '+63':  {cc:'PH', trunk:'0', chunks:[3,3,4]},
+  '+84':  {cc:'VN', trunk:'0', chunks:[3,3,4]},
+  '+27':  {cc:'ZA', trunk:'0', chunks:[2,3,4]},
+  '+33':  {cc:'FR', trunk:'0', chunks:[1,2,2,2,2]},
+  '+49':  {cc:'DE', trunk:'0', chunks:[3,4,4]},
+  '+31':  {cc:'NL', trunk:'0', chunks:[2,4,3]},
+  '+41':  {cc:'CH', trunk:'0', chunks:[2,3,2,2]},
+  '+34':  {cc:'ES', trunk:null,chunks:[3,3,3]},
+  '+39':  {cc:'IT', trunk:null,chunks:[3,4,4]},
+  '+32':  {cc:'BE', trunk:'0', chunks:[3,2,2,2]},
+  '+45':  {cc:'DK', trunk:null,chunks:[2,2,2,2]},
+  '+46':  {cc:'SE', trunk:'0', chunks:[2,3,4]},
+  '+47':  {cc:'NO', trunk:null,chunks:[3,2,3]},
+  '+358': {cc:'FI', trunk:'0', chunks:[2,3,4]},
+  '+48':  {cc:'PL', trunk:null,chunks:[3,3,3]},
+  '+420': {cc:'CZ', trunk:null,chunks:[3,3,3]},
+  '+36':  {cc:'HU', trunk:'06',chunks:[2,3,4]},
+  '+40':  {cc:'RO', trunk:'0', chunks:[3,3,3]},
+  '+7':   {cc:'RU', trunk:'8', chunks:[3,3,4]},
+  '+380': {cc:'UA', trunk:'0', chunks:[2,3,4]},
+  '+972': {cc:'IL', trunk:'0', chunks:[2,3,4]},
+  '+90':  {cc:'TR', trunk:'0', chunks:[3,3,4]},
+  '+20':  {cc:'EG', trunk:'0', chunks:[2,4,4]},
+  '+234': {cc:'NG', trunk:'0', chunks:[3,4,4]},
+  '+254': {cc:'KE', trunk:'0', chunks:[3,3,3]},
+  '+55':  {cc:'BR', trunk:'0', chunks:[2,5,4]},
+  '+52':  {cc:'MX', trunk:'0', chunks:[3,3,4]},
+  '+54':  {cc:'AR', trunk:'0', chunks:[3,4,4]},
+  '+56':  {cc:'CL', trunk:'0', chunks:[1,4,4]},
+  '+57':  {cc:'CO', trunk:'0', chunks:[3,3,4]},
+  '+51':  {cc:'PE', trunk:'0', chunks:[3,3,3]},
+  '+61-AU':{cc:'AU',trunk:'0',chunks:[3,3,3]},
+};
+
+function chunkFormat(digits, chunks){
+  const parts = [];
+  let pos = 0;
+  for(const n of chunks){
+    if(pos >= digits.length) break;
+    parts.push(digits.slice(pos, pos+n));
+    pos += n;
+  }
+  if(pos < digits.length) parts[parts.length-1] += digits.slice(pos);
+  return parts.join(' ');
+}
+
+function formatPhone(raw, dialKey){
+  const country = COUNTRY_DATA[dialKey];
+  if(!country || !raw) return raw;
+  const dial = dialKey.startsWith('+1') ? '1' : dialKey.replace('+','');
+  let d = raw.replace(/\D/g,'');
+  if(d.startsWith(dial) && d.length > dial.length) d = d.slice(dial.length);
+  if(country.trunk && d.startsWith(country.trunk.replace(/\D/g,'')))
+    d = d.slice(country.trunk.replace(/\D/g,'').length);
+  return chunkFormat(d, country.chunks);
+}
+
 function gradPipe(){
   return `<span style="${GRAD};font-weight:700;padding:0 8px">|</span>`;
 }
@@ -518,9 +592,13 @@ function generateHtml(data){
   const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Your Name';
   const displayEmail = email || 'you@marketboomer.com';
   const displayTitle = jobTitle || 'Your Job Title';
-  const telRaw = phone ? (phoneCC + phone).replace(/[\s\-()]/g,'') : '';
+  const rawCC = document.getElementById('f-phone-cc').value;
+  const countryInfo = COUNTRY_DATA[rawCC] || {cc: rawCC.replace('+',''), chunks:[3,3,4], trunk:null};
+  const dialDisplay = rawCC.startsWith('+1') ? '+1' : rawCC;
+  const formatted = phone ? formatPhone(phone, rawCC) : '';
+  const telRaw = phone ? (dialDisplay + phone).replace(/\D/g,'') : '';
   const phoneLine = phone
-    ? `<div style="font-size:13px;color:#676767;margin:0 0 12px"><a href="tel:${telRaw}" style="color:#676767;text-decoration:none">${phoneCC} ${phone}</a></div>`
+    ? `<div style="font-size:13px;color:#676767;margin:0 0 12px"><span style="color:#9ca3af">${countryInfo.cc}</span>&nbsp;<a href="tel:${telRaw}" style="color:#676767;text-decoration:none">${dialDisplay} ${formatted}</a></div>`
     : '';
 
   const logoBtn = ctaDemo
@@ -582,14 +660,12 @@ function generateHtml(data){
 }
 
 function getData(){
-  const rawCC = document.getElementById('f-phone-cc').value;
-  const dialCode = rawCC === '+1-CA' ? '+1' : rawCC;
   return {
     firstName:   document.getElementById('f-first').value.trim(),
     lastName:    document.getElementById('f-last').value.trim(),
     email:       document.getElementById('f-email').value.trim(),
     phone:       document.getElementById('f-phone').value.trim(),
-    phoneCC:     dialCode,
+    phoneCC:     document.getElementById('f-phone-cc').value,
     jobTitle:    document.getElementById('f-title').value.trim(),
     ctaDemo:     document.getElementById('cta-demo').checked,
     ctaBuyer:    document.getElementById('cta-buyer').checked,
