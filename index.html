@@ -210,16 +210,16 @@ body{min-height:100vh}
     <div class="field-row">
       <div class="field">
         <label for="f-first">First Name</label>
-        <input id="f-first" type="text" placeholder="Akila" autocomplete="given-name">
+        <input id="f-first" type="text" placeholder="Sarah" autocomplete="given-name">
       </div>
       <div class="field">
         <label for="f-last">Last Name</label>
-        <input id="f-last" type="text" placeholder="Lohan" autocomplete="family-name">
+        <input id="f-last" type="text" placeholder="Mitchell" autocomplete="family-name">
       </div>
     </div>
     <div class="field">
       <label for="f-email">Email Address</label>
-      <input id="f-email" type="email" placeholder="akila.lohan@purchaseplus.com" autocomplete="email">
+      <input id="f-email" type="email" placeholder="sarah.mitchell@marketboomer.com" autocomplete="email">
     </div>
     <div class="field">
       <label for="f-title">Job Title</label>
@@ -332,7 +332,7 @@ function gradPipe(){
 function generateHtml(data){
   const {firstName, lastName, email, jobTitle, ctaDemo, ctaBuyer, ctaSupplier, ctaJoin} = data;
   const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Your Name';
-  const displayEmail = email || 'you@purchaseplus.com';
+  const displayEmail = email || 'you@marketboomer.com';
   const displayTitle = jobTitle || 'Your Job Title';
 
   const logoBtn = ctaDemo
