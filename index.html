@@ -195,6 +195,10 @@ body{min-height:100vh}
 .step-body strong{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:4px;text-wrap:balance}
 .step-body p{font-size:12px;color:var(--muted);line-height:1.6;margin:0;text-wrap:balance}
 .step-body code{font-size:11px;background:#f3f4f6;color:var(--pp-purple);padding:2px 6px;border-radius:4px;font-family:'SF Mono','Fira Code',monospace}
+.opt-badge{font-size:10px;font-weight:500;color:var(--muted);background:#f3f4f6;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle;letter-spacing:.04em}
+.phone-row{display:flex;gap:8px}
+.phone-row .phone-cc{flex-shrink:0;width:148px;font-size:13px;padding:10px 8px}
+.phone-row .phone-num{flex:1}
 .step-img{width:100%;border-radius:8px;border:1px solid var(--border);margin-top:12px;display:block}
 
 /* ── RESPONSIVE ── */
@@ -254,6 +258,36 @@ body{min-height:100vh}
     <div class="field">
       <label for="f-email">Email Address</label>
       <input id="f-email" type="email" placeholder="sarah.mitchell@marketboomer.com" autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="f-phone">Direct Phone <span class="opt-badge">optional</span></label>
+      <div class="phone-row">
+        <select id="f-phone-cc" class="phone-cc">
+          <option value="+61">🇦🇺 +61 AU</option>
+          <option value="+64">🇳🇿 +64 NZ</option>
+          <option value="+1">🇺🇸 +1 US</option>
+          <option value="+1-CA">🇨🇦 +1 CA</option>
+          <option value="+44">🇬🇧 +44 UK</option>
+          <option value="+66">🇹🇭 +66 TH</option>
+          <option value="+65">🇸🇬 +65 SG</option>
+          <option value="+60">🇲🇾 +60 MY</option>
+          <option value="+852">🇭🇰 +852 HK</option>
+          <option value="+91">🇮🇳 +91 IN</option>
+          <option value="+971">🇦🇪 +971 AE</option>
+          <option value="+81">🇯🇵 +81 JP</option>
+          <option value="+82">🇰🇷 +82 KR</option>
+          <option value="+86">🇨🇳 +86 CN</option>
+          <option value="+62">🇮🇩 +62 ID</option>
+          <option value="+63">🇵🇭 +63 PH</option>
+          <option value="+84">🇻🇳 +84 VN</option>
+          <option value="+27">🇿🇦 +27 ZA</option>
+          <option value="+33">🇫🇷 +33 FR</option>
+          <option value="+49">🇩🇪 +49 DE</option>
+          <option value="+31">🇳🇱 +31 NL</option>
+          <option value="+41">🇨🇭 +41 CH</option>
+        </select>
+        <input id="f-phone" type="tel" class="phone-num" placeholder="412 345 678" autocomplete="tel-national">
+      </div>
     </div>
     <div class="field">
       <label for="f-title">Job Title</label>
@@ -476,10 +510,14 @@ function gradPipe(){
 }
 
 function generateHtml(data){
-  const {firstName, lastName, email, jobTitle, ctaDemo, ctaBuyer, ctaSupplier, ctaJoin} = data;
+  const {firstName, lastName, email, phone, phoneCC, jobTitle, ctaDemo, ctaBuyer, ctaSupplier, ctaJoin} = data;
   const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Your Name';
   const displayEmail = email || 'you@marketboomer.com';
   const displayTitle = jobTitle || 'Your Job Title';
+  const telRaw = phone ? (phoneCC + phone).replace(/[\s\-()]/g,'') : '';
+  const phoneLine = phone
+    ? `<div style="font-size:13px;color:#676767;margin:0 0 12px"><a href="tel:${telRaw}" style="color:#676767;text-decoration:none">${phoneCC} ${phone}</a></div>`
+    : '';
 
   const logoBtn = ctaDemo
     ? `<table cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px">
@@ -525,7 +563,8 @@ function generateHtml(data){
   <tr><td style="padding-top:10px">
     <div style="font-size:17px;font-weight:700;color:#351c75;margin:0 0 2px">${fullName}</div>
     <div style="font-size:13px;color:#676767;margin:0 0 2px">${displayTitle}</div>
-    <div style="font-size:13px;color:#676767;margin:0 0 12px">${displayEmail}</div>
+    <div style="font-size:13px;color:#676767;margin:0 0 2px">${displayEmail}</div>
+    ${phoneLine}
     ${logoBtn}
     ${address}
     ${topRow}
@@ -539,10 +578,14 @@ function generateHtml(data){
 }
 
 function getData(){
+  const rawCC = document.getElementById('f-phone-cc').value;
+  const dialCode = rawCC === '+1-CA' ? '+1' : rawCC;
   return {
     firstName:   document.getElementById('f-first').value.trim(),
     lastName:    document.getElementById('f-last').value.trim(),
     email:       document.getElementById('f-email').value.trim(),
+    phone:       document.getElementById('f-phone').value.trim(),
+    phoneCC:     dialCode,
     jobTitle:    document.getElementById('f-title').value.trim(),
     ctaDemo:     document.getElementById('cta-demo').checked,
     ctaBuyer:    document.getElementById('cta-buyer').checked,
@@ -589,9 +632,10 @@ function updatePreview(){
 }
 
 // Wire up all inputs
-document.querySelectorAll('input[type=text],input[type=email]').forEach(el =>
+document.querySelectorAll('input[type=text],input[type=email],input[type=tel]').forEach(el =>
   el.addEventListener('input', updatePreview)
 );
+document.getElementById('f-phone-cc').addEventListener('change', updatePreview);
 
 // CTA toggle
 document.querySelectorAll('.cta-option').forEach(opt => {
