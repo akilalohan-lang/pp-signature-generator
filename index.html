@@ -178,15 +178,49 @@ body{min-height:100vh}
 .empty-state svg{width:48px;height:48px;opacity:.3;margin-bottom:12px}
 .empty-state p{font-size:14px;line-height:1.6}
 
+/* ── INSTALL GUIDE ── */
+.install-guide{margin-top:32px}
+.install-guide-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.install-guide-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.install-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.install-tab{display:flex;align-items:center;gap:7px;padding:10px 20px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;font-family:'Inter',sans-serif;white-space:nowrap;flex-shrink:0}
+.install-tab.active{color:var(--pp-purple);border-bottom-color:var(--pp-purple)}
+.install-tab:hover:not(.active){color:var(--text)}
+.install-tab svg{width:16px;height:16px;flex-shrink:0}
+.install-panel{display:none}.install-panel.active{display:block}
+.steps-grid{display:flex;flex-direction:column;gap:14px}
+.step-card{display:flex;gap:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:0 1px 6px rgba(17,24,39,.04)}
+.step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--grad);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.step-body{flex:1;min-width:0}
+.step-body strong{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:4px;text-wrap:balance}
+.step-body p{font-size:12px;color:var(--muted);line-height:1.6;margin:0;text-wrap:balance}
+.step-body code{font-size:11px;background:#f3f4f6;color:var(--pp-purple);padding:2px 6px;border-radius:4px;font-family:'SF Mono','Fira Code',monospace}
+.step-img{width:100%;border-radius:8px;border:1px solid var(--border);margin-top:12px;display:block}
+
+/* ── RESPONSIVE ── */
 @media(max-width:1024px){
   .layout{grid-template-columns:1fr}
   .form-panel{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .preview-panel{min-height:auto}
+}
+@media(max-width:768px){
+  .header-title{font-size:13px}
+  .preview-card{padding:20px 16px}
+  .preview-header{flex-wrap:wrap;gap:12px}
+  #sig-preview{max-width:100%;overflow-x:auto}
+  .copy-btns{flex-wrap:wrap}
 }
 @media(max-width:640px){
   .header{padding:0 16px}
-  .form-panel,.preview-panel{padding:24px 16px}
+  .header-title{display:none}
+  .form-panel,.preview-panel{padding:20px 14px}
   .field-row{grid-template-columns:1fr}
   .copy-btns{flex-direction:column}
+  .preview-header{flex-direction:column;align-items:flex-start;gap:10px}
+  .code-block{padding:14px 12px;overflow-x:auto}
+  .code-block pre{font-size:10.5px}
+  .step-card{padding:12px 14px}
+  .install-tab{padding:8px 14px;font-size:12px}
 }
 </style>
 </head>
@@ -302,9 +336,122 @@ body{min-height:100vh}
       </div>
     </div>
 
-    <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:16px">
-      <strong>How to use:</strong> Click "Copy for Gmail" then open Gmail Settings → Signature → create or edit a signature → paste (⌘V). For Outlook, use "Copy for Outlook" and paste into your signature editor.
-    </p>
+    <!-- ── INSTALL GUIDE ── -->
+    <div class="install-guide">
+      <p class="install-guide-title">How to install</p>
+      <div class="install-tabs">
+        <button class="install-tab active" onclick="switchInstallTab('gmail',this)">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="#EA4335" stroke-width="1.8"/><path d="M2 4l10 9 10-9" stroke="#EA4335" stroke-width="1.8"/></svg>
+          Gmail
+        </button>
+        <button class="install-tab" onclick="switchInstallTab('outlook',this)">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="18" rx="2" stroke="#0078D4" stroke-width="1.8"/><path d="M7 8h10M7 12h7" stroke="#0078D4" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Outlook
+        </button>
+        <button class="install-tab" onclick="switchInstallTab('apple',this)">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4z" stroke="#888" stroke-width="1.8"/><path d="M4 4l8 9 8-9" stroke="#888" stroke-width="1.8"/></svg>
+          Apple Mail
+        </button>
+      </div>
+
+      <!-- Gmail -->
+      <div id="install-gmail" class="install-panel active">
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Open Gmail Settings</strong>
+              <p>Click the <strong>gear icon</strong> in the top-right corner of Gmail to open Quick Settings.</p>
+              <img class="step-img" src="https://akilalohan-lang.github.io/pp-signature-generator/gmail-step-1.png" alt="Click the settings gear icon">
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>See All Settings</strong>
+              <p>Click <strong>"See all settings"</strong> at the top of the Quick Settings panel that slides out.</p>
+              <img class="step-img" src="https://akilalohan-lang.github.io/pp-signature-generator/gmail-step-2.png" alt="Click See all settings">
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Create a New Signature</strong>
+              <p>In the <strong>General</strong> tab, scroll down to <strong>Signature</strong>. Click <code>+ Create new</code>, give it a name (e.g. "PurchasePlus 2026"), then paste with <code>⌘V</code> or <code>Ctrl+V</code>. Scroll down and click <strong>Save Changes</strong>.</p>
+              <img class="step-img" src="https://akilalohan-lang.github.io/pp-signature-generator/gmail-step-3.png" alt="Create new signature and paste">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Outlook -->
+      <div id="install-outlook" class="install-panel">
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Copy Your Signature</strong>
+              <p>Click <strong>Copy for Outlook</strong> above. This copies your signature as rich HTML, ready to paste.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Open Signature Settings</strong>
+              <p><strong>Windows:</strong> File → Options → Mail → Signatures.<br><strong>Mac:</strong> Outlook menu → Preferences → Signatures.<br><strong>Web (Outlook.com):</strong> Settings gear → View all Outlook settings → Mail → Compose and reply.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Create and Paste</strong>
+              <p>Click <strong>New</strong> (or <code>+</code>), name your signature (e.g. "PurchasePlus 2026"), then click in the editor and paste with <code>Ctrl+V</code> (Windows) or <code>⌘V</code> (Mac).</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Set as Default and Save</strong>
+              <p>In the <strong>Choose default signature</strong> section, set your new signature for <em>New messages</em>. Click <strong>OK</strong> or <strong>Save</strong>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Apple Mail -->
+      <div id="install-apple" class="install-panel">
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Copy Your Signature</strong>
+              <p>Click <strong>Copy for Gmail</strong> above (the same rich-text copy works for Apple Mail).</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Open Mail Signatures</strong>
+              <p>Open the Mail app, then go to <strong>Mail → Settings</strong> (or <strong>Preferences</strong> on older macOS) with <code>⌘,</code>. Click the <strong>Signatures</strong> tab.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Add a New Signature</strong>
+              <p>Select your email account in the left column, then click <code>+</code>. A blank signature appears — click inside the right pane and paste with <code>⌘V</code>.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <strong>Preserve the Formatting</strong>
+              <p>Uncheck <strong>"Always match my default message font"</strong> so the signature keeps the correct PurchasePlus fonts and colours. Close the window to save.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
 
@@ -404,10 +551,41 @@ function getData(){
   };
 }
 
+function syntaxHighlight(raw){
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const tokenRe = /(<(?:[^"'>]|"[^"]*"|'[^']*')*>)/g;
+  const parts = raw.split(tokenRe);
+  return parts.map(part => {
+    if(!part.startsWith('<')) return `<span style="color:#94a3b8">${esc(part)}</span>`;
+    const isClose = part.startsWith('</');
+    const isSelf  = part.endsWith('/>');
+    const inner   = part.slice(isClose?2:1, isSelf?-2:-1).trim();
+    const ws      = inner.search(/\s/);
+    const name    = ws===-1 ? inner : inner.slice(0,ws);
+    const rest    = ws===-1 ? '' : inner.slice(ws);
+    const attrRe  = /(\s+)([\w-]+)(=)("(?:[^"\\]|\\.)*")/g;
+    let coloredRest='', lastIdx=0, am;
+    while((am=attrRe.exec(rest))!==null){
+      coloredRest += esc(rest.slice(lastIdx, am.index+am[1].length));
+      coloredRest += `<span style="color:#818cf8">${am[2]}</span>`;
+      coloredRest += `<span style="color:#6b7280">=</span>`;
+      coloredRest += `<span style="color:#60a5fa">&quot;${esc(am[4].slice(1,-1))}&quot;</span>`;
+      lastIdx = am.index+am[0].length;
+    }
+    coloredRest += esc(rest.slice(lastIdx));
+    return [
+      `<span style="color:#6b7280">&lt;${isClose?'/':''}</span>`,
+      `<span style="color:#c084fc;font-weight:600">${esc(name)}</span>`,
+      coloredRest,
+      isSelf?`<span style="color:#6b7280">/&gt;</span>`:`<span style="color:#6b7280">&gt;</span>`,
+    ].join('');
+  }).join('');
+}
+
 function updatePreview(){
   const html = generateHtml(getData());
   document.getElementById('sig-preview').innerHTML = html;
-  document.getElementById('sig-code').textContent = html;
+  document.getElementById('sig-code').innerHTML = syntaxHighlight(html);
 }
 
 // Wire up all inputs
@@ -477,6 +655,13 @@ function showToast(msg){
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+function switchInstallTab(id, btn){
+  document.querySelectorAll('.install-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.install-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('install-'+id).classList.add('active');
 }
 
 // Init
