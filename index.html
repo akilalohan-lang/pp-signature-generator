@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Signature Generator — PurchasePlus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --grad:linear-gradient(90deg,#a956ff 0%,#7c5dff 50%,#3766fe 100%);
+  --grad-r:linear-gradient(270deg,#a956ff 0%,#7c5dff 50%,#3766fe 100%);
+  --pp-purple:#7c5dff;
+  --pp-dark:#351c75;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --bg:#f9fafb;
+  --card:#fff;
+  --radius:16px;
+}
+html{font-family:'Inter',sans-serif;font-size:15px;color:var(--text);background:var(--bg)}
+body{min-height:100vh}
+
+/* ── HEADER ── */
+.header{
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  padding:0 40px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:50;
+  box-shadow:0 1px 12px rgba(17,24,39,.06);
+}
+.header-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.header-logo{height:32px;width:auto}
+.header-sep{width:1px;height:20px;background:var(--border)}
+.header-title{font-size:14px;font-weight:500;color:var(--muted)}
+.header-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:999px;
+  background:linear-gradient(135deg,rgba(169,86,255,.1),rgba(55,102,254,.1));
+  color:var(--pp-purple);font-size:11.5px;font-weight:600;letter-spacing:.06em;
+}
+.header-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--pp-purple)}
+
+/* ── LAYOUT ── */
+.layout{
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:0;
+  min-height:calc(100vh - 64px);
+}
+.form-panel{
+  background:#fff;
+  border-right:1px solid var(--border);
+  padding:36px 32px;
+  overflow-y:auto;
+  position:sticky;
+  top:64px;
+  height:calc(100vh - 64px);
+}
+.preview-panel{
+  padding:36px 40px;
+  background:var(--bg);
+}
+
+/* ── FORM ── */
+.section-title{
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px;padding-bottom:10px;
+  border-bottom:1px solid var(--border);
+}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:6px}
+.field input,.field select{
+  width:100%;padding:10px 13px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-family:'Inter',sans-serif;font-size:14px;color:var(--text);
+  background:#fafafa;transition:all .2s;
+}
+.field input:focus,.field select:focus{
+  outline:none;background:#fff;
+  border-color:#c4b5fd;
+  box-shadow:0 0 0 3px rgba(124,93,255,.12);
+}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.cta-group{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
+.cta-option{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:10px;
+  border:1.5px solid var(--border);
+  cursor:pointer;transition:all .2s;
+  user-select:none;
+}
+.cta-option:hover{border-color:#c4b5fd;background:#faf5ff}
+.cta-option.active{border-color:var(--pp-purple);background:linear-gradient(135deg,rgba(169,86,255,.06),rgba(55,102,254,.06))}
+.cta-option input[type=checkbox]{display:none}
+.cta-check{
+  width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .2s;
+}
+.cta-option.active .cta-check{background:var(--grad);border-color:transparent}
+.cta-check svg{display:none;width:10px;height:10px;color:#fff}
+.cta-option.active .cta-check svg{display:block}
+.cta-label{font-size:13.5px;font-weight:500;color:var(--text)}
+.cta-desc{font-size:11.5px;color:var(--muted);margin-top:1px}
+
+.divider{border:none;border-top:1px solid var(--border);margin:24px 0}
+
+/* ── PREVIEW PANEL ── */
+.preview-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;
+}
+.preview-header h2{font-size:16px;font-weight:600;color:var(--text)}
+.copy-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:50px;font-size:13px;font-weight:500;
+  font-family:'Inter',sans-serif;border:none;cursor:pointer;
+  transition:all .2s;text-decoration:none;white-space:nowrap;
+}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 6px 16px rgba(124,93,255,.28)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(124,93,255,.38)}
+.btn-outline{background:#fff;color:var(--text);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:#c4b5fd;color:var(--pp-purple)}
+.btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--border);font-size:12px}
+.btn-ghost:hover{border-color:#c4b5fd;color:var(--pp-purple)}
+.btn svg{width:14px;height:14px;flex-shrink:0}
+
+.preview-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--radius);padding:32px;
+  box-shadow:0 2px 20px rgba(17,24,39,.05);
+  margin-bottom:20px;
+}
+.preview-label{
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:8px;
+}
+.preview-label::after{content:'';flex:1;height:1px;background:var(--border)}
+#sig-preview{max-width:560px}
+
+.code-block{
+  position:relative;background:#1e1e2e;border-radius:12px;
+  padding:20px;overflow:auto;margin-top:20px;
+}
+.code-block pre{font-family:'SF Mono','Fira Code',monospace;font-size:11.5px;color:#cdd6f4;white-space:pre-wrap;word-break:break-all;line-height:1.6}
+.code-copy{
+  position:absolute;top:12px;right:12px;
+  background:rgba(255,255,255,.1);color:#fff;border:none;
+  border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:background .2s;
+}
+.code-copy:hover{background:rgba(255,255,255,.2)}
+
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:#111827;color:#fff;padding:10px 20px;border-radius:50px;
+  font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:999;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:1px solid var(--border)}
+.tab{padding:8px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
+.tab.active{color:var(--pp-purple);border-bottom-color:var(--pp-purple)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state svg{width:48px;height:48px;opacity:.3;margin-bottom:12px}
+.empty-state p{font-size:14px;line-height:1.6}
+
+@media(max-width:1024px){
+  .layout{grid-template-columns:1fr}
+  .form-panel{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+}
+@media(max-width:640px){
+  .header{padding:0 16px}
+  .form-panel,.preview-panel{padding:24px 16px}
+  .field-row{grid-template-columns:1fr}
+  .copy-btns{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="header-brand" href="https://www.purchaseplus.com" target="_blank">
+    <img class="header-logo" src="https://cdn.prod.website-files.com/63d9f60b43f95d38d9f5bac3/63d9f60b43f95d38d9f5bac9_purchaseplus-logo.svg" alt="PurchasePlus"
+      onerror="this.onerror=null;this.src='';this.parentNode.querySelector('.logo-fallback').style.display='flex'">
+    <span class="logo-fallback" style="display:none;align-items:center;gap:6px;font-weight:700;font-size:16px">
+      <span style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#a956ff,#3766fe);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700">P</span>
+      PurchasePlus
+    </span>
+    <span class="header-sep"></span>
+    <span class="header-title">Email Signature Generator</span>
+  </a>
+  <span class="header-badge">Internal Tool</span>
+</header>
+
+<div class="layout">
+
+  <!-- ── FORM PANEL ── -->
+  <aside class="form-panel">
+
+    <p class="section-title">Your Details</p>
+    <div class="field-row">
+      <div class="field">
+        <label for="f-first">First Name</label>
+        <input id="f-first" type="text" placeholder="Akila" autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label for="f-last">Last Name</label>
+        <input id="f-last" type="text" placeholder="Lohan" autocomplete="family-name">
+      </div>
+    </div>
+    <div class="field">
+      <label for="f-email">Email Address</label>
+      <input id="f-email" type="email" placeholder="akila.lohan@purchaseplus.com" autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="f-title">Job Title</label>
+      <input id="f-title" type="text" placeholder="Digital Marketing Manager" autocomplete="organization-title">
+    </div>
+
+    <hr class="divider">
+    <p class="section-title">Calls to Action</p>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:14px;line-height:1.5">Choose which links appear in your signature. The template layout is fixed — only your details and selections change.</p>
+
+    <div class="cta-group">
+      <label class="cta-option active" data-key="ctaDemo">
+        <input type="checkbox" id="cta-demo" checked>
+        <span class="cta-check"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 5l2.5 2.5L8.5 2"/></svg></span>
+        <div>
+          <div class="cta-label">Book a Demo</div>
+          <div class="cta-desc">Links to /request-a-demo</div>
+        </div>
+      </label>
+
+      <label class="cta-option" data-key="ctaBuyer">
+        <input type="checkbox" id="cta-buyer">
+        <span class="cta-check"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 5l2.5 2.5L8.5 2"/></svg></span>
+        <div>
+          <div class="cta-label">Buyer Training</div>
+          <div class="cta-desc">Links to /buyer-training-calendar</div>
+        </div>
+      </label>
+
+      <label class="cta-option" data-key="ctaSupplier">
+        <input type="checkbox" id="cta-supplier">
+        <span class="cta-check"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 5l2.5 2.5L8.5 2"/></svg></span>
+        <div>
+          <div class="cta-label">Supplier Training</div>
+          <div class="cta-desc">Links to /supplier-training-calendar</div>
+        </div>
+      </label>
+
+      <label class="cta-option" data-key="ctaJoin">
+        <input type="checkbox" id="cta-join">
+        <span class="cta-check"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 5l2.5 2.5L8.5 2"/></svg></span>
+        <div>
+          <div class="cta-label">Join as a Supplier</div>
+          <div class="cta-desc">Links to /join-as-a-supplier</div>
+        </div>
+      </label>
+    </div>
+
+  </aside>
+
+  <!-- ── PREVIEW PANEL ── -->
+  <main class="preview-panel">
+    <div class="preview-header">
+      <h2>Live Preview</h2>
+      <div class="copy-btns">
+        <button class="btn btn-primary" onclick="copyForGmail()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy for Gmail
+        </button>
+        <button class="btn btn-outline" onclick="copyForOutlook()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy for Outlook
+        </button>
+        <button class="btn btn-ghost" onclick="toggleCode()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          HTML
+        </button>
+      </div>
+    </div>
+
+    <div class="preview-card">
+      <div class="preview-label">Signature Preview</div>
+      <div id="sig-preview"></div>
+    </div>
+
+    <div id="code-area" style="display:none">
+      <div class="code-block">
+        <button class="code-copy" onclick="copyHtmlSource()">Copy</button>
+        <pre id="sig-code"></pre>
+      </div>
+    </div>
+
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:16px">
+      <strong>How to use:</strong> Click "Copy for Gmail" then open Gmail Settings → Signature → create or edit a signature → paste (⌘V). For Outlook, use "Copy for Outlook" and paste into your signature editor.
+    </p>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const LOGO_URL = "https://lh3.googleusercontent.com/d/1YvOLCO40WBvw6B7Z-OU-A4lK2WbfKdkN";
+const BADGES_URL = "https://lh3.googleusercontent.com/d/1y46SNpEvdKOwt5RzNq43HQibzCOjXFoV";
+
+const GRAD = "background:linear-gradient(90deg,#a956ff,#7c5dff,#3766fe);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#7c5dff";
+const GRAD_BG = "background:linear-gradient(90deg,#a956ff,#7c5dff,#3766fe)";
+
+const PHONES = [
+  ["AU/NZ", "tel:+61258496957",  "+61 258 496 957"],
+  ["US",    "tel:+16802255236",  "+1 680 225 5236"],
+  ["TH",    "tel:+6624609340",   "+66 24 609 340"],
+  ["UK",    "tel:+442045387068", "+44 204 538 7068"],
+];
+
+function gradPipe(){
+  return `<span style="${GRAD};font-weight:700;padding:0 8px">|</span>`;
+}
+
+function generateHtml(data){
+  const {firstName, lastName, email, jobTitle, ctaDemo, ctaBuyer, ctaSupplier, ctaJoin} = data;
+  const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Your Name';
+  const displayEmail = email || 'you@purchaseplus.com';
+  const displayTitle = jobTitle || 'Your Job Title';
+
+  const logoBtn = ctaDemo
+    ? `<table cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px">
+        <tr>
+          <td style="vertical-align:middle;padding-right:18px">
+            <a href="https://www.purchaseplus.com/" target="_blank"><img src="${LOGO_URL}" width="200" height="70" alt="PurchasePlus" style="display:block;border:0"></a>
+          </td>
+          <td style="vertical-align:middle">
+            <table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td style="${GRAD_BG};border-radius:50px;padding:7px 16px">
+                <a href="https://www.purchaseplus.com/request-a-demo" target="_blank" style="font-family:'Trebuchet MS',Arial,sans-serif;font-size:12px;font-weight:600;color:#fff;text-decoration:none;white-space:nowrap">Book a Demo</a>
+              </td>
+            </tr></table>
+          </td>
+        </tr>
+      </table>`
+    : `<div style="margin:0 0 12px"><a href="https://www.purchaseplus.com/" target="_blank"><img src="${LOGO_URL}" width="200" height="70" alt="PurchasePlus" style="display:block;border:0"></a></div>`;
+
+  const phoneRows = PHONES.map(([r,t,n]) =>
+    `<span style="color:#9ca3af">${r}</span>&nbsp;<a href="${t}" style="color:#676767;text-decoration:none">${n}</a><br>`
+  ).join('');
+
+  const address = `<div style="margin:0 0 14px;font-size:12px;color:#676767;line-height:1.8">
+    <a href="https://maps.google.com/?q=388+George+Street+Sydney+NSW+2000" target="_blank" style="color:#3d85c6;text-decoration:none;display:block">388 George Street, Sydney NSW 2000</a>
+    ${phoneRows}
+  </div>`;
+
+  const topLinks = [];
+  if(ctaBuyer)    topLinks.push(`<a href="https://www.purchaseplus.com/buyer-training-calendar" target="_blank" style="font-weight:600;text-decoration:none;${GRAD}">Buyer Training &#8594;</a>`);
+  if(ctaSupplier) topLinks.push(`<a href="https://www.purchaseplus.com/supplier-training-calendar" target="_blank" style="font-weight:600;text-decoration:none;${GRAD}">Supplier Training &#8594;</a>`);
+  if(ctaJoin)     topLinks.push(`<a href="https://www.purchaseplus.com/join-as-a-supplier" target="_blank" style="font-weight:600;text-decoration:none;${GRAD}">Join as a Supplier &#8594;</a>`);
+
+  const topRow = topLinks.length
+    ? `<div style="font-size:13px;margin:0 0 6px">${topLinks.join(gradPipe())}</div>`
+    : '';
+
+  const social = `<div style="font-size:13px;margin:0 0 14px">
+    <a href="https://www.purchaseplus.com/" target="_blank" style="color:#676767;text-decoration:none">PurchasePlus</a>${gradPipe()}<a href="https://www.linkedin.com/company/purchaseplus" target="_blank" style="color:#676767;text-decoration:none">LinkedIn</a>${gradPipe()}<a href="https://www.youtube.com/channel/UCEVsgfO9TpIUOv92eQfSRqg" target="_blank" style="color:#676767;text-decoration:none">YouTube</a>
+  </div>`;
+
+  return `<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Trebuchet MS','Lucida Sans Unicode',Arial,sans-serif;max-width:560px">
+  <tr><td height="3" style="${GRAD_BG};font-size:1px;line-height:3px;padding:0">&nbsp;</td></tr>
+  <tr><td style="padding-top:10px">
+    <div style="font-size:17px;font-weight:700;color:#351c75;margin:0 0 2px">${fullName}</div>
+    <div style="font-size:13px;color:#676767;margin:0 0 2px">${displayTitle}</div>
+    <div style="font-size:13px;color:#676767;margin:0 0 12px">${displayEmail}</div>
+    ${logoBtn}
+    ${address}
+    ${topRow}
+    ${social}
+    <div style="margin:0 0 12px"><img src="${BADGES_URL}" width="200" height="31" alt="Certifications" style="display:block;border:0"></div>
+    <div style="border-top:1px solid #dbdedd;padding-top:8px;margin-top:8px;max-width:560px">
+      <span style="color:#a9a9a9;font-size:11px">The contents of this email are confidential to the ordinary user of the email address to which it was addressed and may also be privileged. If you are not the addressee of this email you may not copy, forward, disclose or otherwise use it or any part of it in any form whatsoever. If you have received this email in error please email the sender by replying to this message.</span>
+    </div>
+  </td></tr>
+</table>`;
+}
+
+function getData(){
+  return {
+    firstName:   document.getElementById('f-first').value.trim(),
+    lastName:    document.getElementById('f-last').value.trim(),
+    email:       document.getElementById('f-email').value.trim(),
+    jobTitle:    document.getElementById('f-title').value.trim(),
+    ctaDemo:     document.getElementById('cta-demo').checked,
+    ctaBuyer:    document.getElementById('cta-buyer').checked,
+    ctaSupplier: document.getElementById('cta-supplier').checked,
+    ctaJoin:     document.getElementById('cta-join').checked,
+  };
+}
+
+function updatePreview(){
+  const html = generateHtml(getData());
+  document.getElementById('sig-preview').innerHTML = html;
+  document.getElementById('sig-code').textContent = html;
+}
+
+// Wire up all inputs
+document.querySelectorAll('input[type=text],input[type=email]').forEach(el =>
+  el.addEventListener('input', updatePreview)
+);
+
+// CTA toggle
+document.querySelectorAll('.cta-option').forEach(opt => {
+  opt.addEventListener('click', function(){
+    const cb = this.querySelector('input[type=checkbox]');
+    cb.checked = !cb.checked;
+    this.classList.toggle('active', cb.checked);
+    updatePreview();
+  });
+});
+
+// Copy for Gmail (rich text → paste straight into Gmail signature editor)
+async function copyForGmail(){
+  const html = generateHtml(getData());
+  try{
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        'text/html': new Blob([html], {type:'text/html'}),
+        'text/plain': new Blob([stripTags(html)], {type:'text/plain'}),
+      })
+    ]);
+    showToast('Copied! Open Gmail Settings → Signature and paste (⌘V / Ctrl+V)');
+  }catch(e){
+    fallbackCopy(html);
+    showToast('Copied to clipboard');
+  }
+}
+
+// Copy for Outlook (same rich text approach)
+async function copyForOutlook(){
+  await copyForGmail();
+  showToast('Copied! Open Outlook → Settings → Signature and paste');
+}
+
+async function copyHtmlSource(){
+  await navigator.clipboard.writeText(generateHtml(getData()));
+  showToast('HTML source copied');
+}
+
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+}
+
+function stripTags(html){
+  return html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+}
+
+let codeVisible = false;
+function toggleCode(){
+  codeVisible = !codeVisible;
+  document.getElementById('code-area').style.display = codeVisible ? 'block' : 'none';
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// Init
+updatePreview();
+</script>
+</body>
+</html>
