@@ -312,8 +312,7 @@ body{min-height:100vh}
 
 <script>
 const LOGO_URL = "https://cdn.prod.website-files.com/62b4fd72b25b1bcbcba262e8/62b50208b9104c08661c1b2e_logo-horizontal-web.svg";
-const PCI_BADGE_URL = "https://akilalohan-lang.github.io/pp-signature-generator/pci-badge.svg";
-const AICPA_BADGE_URL = "https://akilalohan-lang.github.io/pp-signature-generator/aicpa-badge.svg";
+const POWERED_BY_URL = "https://akilalohan-lang.github.io/pp-signature-generator/powered-by-marketboomer.png";
 
 const GRAD = "background:linear-gradient(90deg,#a956ff,#7c5dff,#3766fe);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#7c5dff";
 const GRAD_BG = "background:linear-gradient(90deg,#a956ff,#7c5dff,#3766fe)";
@@ -384,10 +383,7 @@ function generateHtml(data){
     ${address}
     ${topRow}
     ${social}
-    <div style="margin:0 0 12px">
-      <img src="${PCI_BADGE_URL}" width="60" height="30" alt="PCI DSS" style="display:inline-block;border:0;vertical-align:middle;margin-right:8px">
-      <img src="${AICPA_BADGE_URL}" width="40" height="30" alt="AICPA SOC" style="display:inline-block;border:0;vertical-align:middle">
-    </div>
+    <div style="margin:0 0 12px"><img src="${POWERED_BY_URL}" width="190" height="30" alt="Powered by marketboomer" style="display:block;border:0"></div>
     <div style="border-top:1px solid #dbdedd;padding-top:8px;margin-top:8px;max-width:560px">
       <span style="color:#a9a9a9;font-size:11px">The contents of this email are confidential to the ordinary user of the email address to which it was addressed and may also be privileged. If you are not the addressee of this email you may not copy, forward, disclose or otherwise use it or any part of it in any form whatsoever. If you have received this email in error please email the sender by replying to this message.</span>
     </div>
