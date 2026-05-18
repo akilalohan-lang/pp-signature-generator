@@ -340,7 +340,7 @@ body{min-height:100vh}
       <select id="f-address" onchange="updatePreview()">
         <option value="sydney">🇦🇺 Sydney — 388 George Street NSW 2000</option>
         <option value="austin">🇺🇸 Austin — 111 Congress Ave, Suite 1140 TX 78701</option>
-        <option value="bangkok">🇹🇭 Bangkok — 129 Khlong Toei Nuea, Watthana 10110</option>
+        <option value="bangkok">🇹🇭 Bangkok — JLK Tower, 15th Fl, Sukhumvit Rd 10110</option>
       </select>
     </div>
 
@@ -646,7 +646,7 @@ function generateHtml(data){
     ? `<table cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px">
         <tr>
           <td style="vertical-align:middle;padding-right:18px">
-            <a href="https://www.purchaseplus.com/" target="_blank"><img src="${LOGO_URL}" width="200" height="70" alt="PurchasePlus" style="display:block;border:0"></a>
+            <a href="https://www.purchaseplus.com/" target="_blank"><img src="${LOGO_URL}" width="200" alt="PurchasePlus" style="display:block;border:0;width:200px;height:auto"></a>
           </td>
           <td style="vertical-align:middle">
             <table cellpadding="0" cellspacing="0" border="0"><tr>
@@ -657,7 +657,7 @@ function generateHtml(data){
           </td>
         </tr>
       </table>`
-    : `<div style="margin:0 0 12px"><a href="https://www.purchaseplus.com/" target="_blank"><img src="${LOGO_URL}" width="200" height="70" alt="PurchasePlus" style="display:block;border:0"></a></div>`;
+    : `<div style="margin:0 0 12px"><a href="https://www.purchaseplus.com/" target="_blank"><img src="${LOGO_URL}" width="200" alt="PurchasePlus" style="display:block;border:0;width:200px;height:auto"></a></div>`;
 
   const phoneRows = PHONES.map(([r,t,n]) =>
     `<span style="color:#9ca3af">${r}</span>&nbsp;<a href="${t}" style="color:#676767;text-decoration:none">${n}</a><br>`
@@ -666,7 +666,7 @@ function generateHtml(data){
   const ADDRESSES = {
     sydney:  {label:'388 George Street, Sydney NSW 2000',          maps:'https://maps.google.com/?q=388+George+Street+Sydney+NSW+2000'},
     austin:  {label:'111 Congress Avenue, Suite 1140, Austin, Texas 78701', maps:'https://maps.google.com/?q=111+Congress+Avenue+Suite+1140+Austin+Texas+78701'},
-    bangkok: {label:'129 Khlong Toei Nuea, Watthana, Bangkok 10110, Thailand', maps:'https://maps.google.com/?q=129+Khlong+Toei+Nuea+Watthana+Bangkok+10110'},
+    bangkok: {label:'129, JLK Tower, 15th Floor, Room 1508, Sukhumvit Rd, Khlong Toei Nuea, Vadhana, Bangkok 10110', maps:'https://maps.google.com/?q=129+JLK+Tower+Sukhumvit+Rd+Khlong+Toei+Nuea+Vadhana+Bangkok+10110'},
   };
   const addr = ADDRESSES[address] || ADDRESSES.sydney;
   const addressBlock = `<div style="margin:0 0 14px;font-size:12px;color:#676767;line-height:1.8">
