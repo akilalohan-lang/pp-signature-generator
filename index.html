@@ -226,50 +226,10 @@ body{min-height:100vh}
   .step-card{padding:12px 14px}
   .install-tab{padding:8px 14px;font-size:12px}
 }
-/* ── PASSWORD GATE ── */
-#pw-gate{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px}
-.pw-card{width:100%;max-width:380px;background:#fff;border:1px solid var(--border);border-radius:20px;padding:36px 32px;box-shadow:0 8px 40px rgba(17,24,39,.1);text-align:center}
-.pw-logo{height:36px;margin-bottom:24px}
-.pw-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px}
-.pw-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
-.pw-input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:#fafafa;transition:all .2s;margin-bottom:12px;box-sizing:border-box;text-align:center;letter-spacing:.05em}
-.pw-input:focus{outline:none;background:#fff;border-color:#c4b5fd;box-shadow:0 0 0 3px rgba(124,93,255,.12)}
-.pw-btn{width:100%;padding:12px;background:var(--grad);border:none;border-radius:50px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s}
-.pw-btn:hover{opacity:.9}
-.pw-error{font-size:12px;color:#ef4444;margin-top:8px;min-height:18px}
 </style>
 </head>
 <body>
 
-<!-- ── PASSWORD GATE ── -->
-<div id="pw-gate">
-  <div class="pw-card">
-    <img class="pw-logo" src="https://cdn.prod.website-files.com/62b4fd72b25b1bcbcba262e8/62b50208b9104c08661c1b2e_logo-horizontal-web.svg" alt="PurchasePlus">
-    <div class="pw-title">Internal Tool</div>
-    <div class="pw-sub">Enter the password to access the Email Signature Generator</div>
-    <input id="pw-input" class="pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
-    <button class="pw-btn" onclick="checkPw()">Access Generator</button>
-    <div class="pw-error" id="pw-error"></div>
-  </div>
-</div>
-<script>
-(function(){
-  if(sessionStorage.getItem('pp-sig-auth')==='1'){
-    document.getElementById('pw-gate').style.display='none';
-  }
-  window.checkPw=function(){
-    const v=document.getElementById('pw-input').value;
-    if(v==='PurchasePlusGTM5000!'){
-      sessionStorage.setItem('pp-sig-auth','1');
-      document.getElementById('pw-gate').style.display='none';
-    } else {
-      document.getElementById('pw-error').textContent='Incorrect password. Try again.';
-      document.getElementById('pw-input').value='';
-      document.getElementById('pw-input').focus();
-    }
-  };
-})();
-</script>
 
 <header class="header">
   <a class="header-brand" href="https://www.purchaseplus.com" target="_blank">
