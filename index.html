@@ -258,7 +258,7 @@ body{min-height:100vh}
     </div>
     <div class="field">
       <label for="f-email">Email Address</label>
-      <input id="f-email" type="email" placeholder="sarah.mitchell@marketboomer.com" autocomplete="email">
+      <input id="f-email" type="email" placeholder="sarah.mitchell@purchaseplus.com" autocomplete="email">
     </div>
     <div class="field">
       <label for="f-phone">Direct Phone <span class="opt-badge">optional</span></label>
@@ -498,7 +498,7 @@ body{min-height:100vh}
 <div class="toast" id="toast"></div>
 
 <script>
-const LOGO_URL = "https://cdn.prod.website-files.com/62b4fd72b25b1bcbcba262e8/62b50208b9104c08661c1b2e_logo-horizontal-web.svg";
+const LOGO_URL = "https://akilalohan-lang.github.io/pp-signature-generator/logo-pp.png";
 const POWERED_BY_URL = "https://akilalohan-lang.github.io/pp-signature-generator/powered-by-marketboomer.png";
 
 const GRAD = "color:#7c5dff";
@@ -592,7 +592,7 @@ function gradPipe(){
 function generateHtml(data){
   const {firstName, lastName, email, phone, phoneCC, jobTitle, ctaDemo, ctaBuyer, ctaSupplier, address} = data;
   const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Your Name';
-  const displayEmail = email || 'you@marketboomer.com';
+  const displayEmail = email || 'you@purchaseplus.com';
   const displayTitle = jobTitle || 'Your Job Title';
   const rawCC = document.getElementById('f-phone-cc').value;
   const countryInfo = COUNTRY_DATA[rawCC] || {cc: rawCC.replace('+',''), chunks:[3,3,4], trunk:null};
@@ -607,18 +607,18 @@ function generateHtml(data){
     ? `<table cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px">
         <tr>
           <td style="vertical-align:middle;padding-right:18px">
-            <a href="https://www.purchaseplus.com/" target="_blank"><img src="${LOGO_URL}" width="200" height="49" alt="PurchasePlus" style="display:block;border:0;width:200px;height:49px"></a>
+            <a href="https://www.purchaseplus.com/" target="_blank"><img src="${LOGO_URL}" width="200" height="71" alt="PurchasePlus" style="display:block;border:0;width:200px;height:71px"></a>
           </td>
           <td style="vertical-align:middle">
             <table cellpadding="0" cellspacing="0" border="0"><tr>
-              <td style="${GRAD_BG};border-radius:50px;padding:0">
+              <td bgcolor="#7c5dff" style="${GRAD_BG};border-radius:50px;padding:0">
                 <a href="https://www.purchaseplus.com/request-a-demo" target="_blank" style="font-family:'Trebuchet MS',Arial,sans-serif;font-size:12px;font-weight:600;color:#fff;text-decoration:none;white-space:nowrap;display:block;padding:8px 18px;line-height:1">Book a Demo</a>
               </td>
             </tr></table>
           </td>
         </tr>
       </table>`
-    : `<div style="margin:0 0 12px"><a href="https://www.purchaseplus.com/" target="_blank"><img src="${LOGO_URL}" width="200" height="49" alt="PurchasePlus" style="display:block;border:0;width:200px;height:49px"></a></div>`;
+    : `<div style="margin:0 0 12px"><a href="https://www.purchaseplus.com/" target="_blank"><img src="${LOGO_URL}" width="200" height="71" alt="PurchasePlus" style="display:block;border:0;width:200px;height:71px"></a></div>`;
 
   const phoneRows = PHONES.map(([r,t,n]) =>
     `<tr><td style="font-size:12px;color:#9ca3af;padding:0 8px 0 0;line-height:1.8;vertical-align:middle;white-space:nowrap">${r}</td><td style="font-size:12px;line-height:1.8;vertical-align:middle"><a href="${t}" style="color:#676767;text-decoration:none">${n}</a></td></tr>`
@@ -657,7 +657,7 @@ function generateHtml(data){
   </div>`;
 
   return `<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Trebuchet MS','Lucida Sans Unicode',Arial,sans-serif;max-width:560px">
-  <tr><td height="3" style="${GRAD_BG};font-size:1px;line-height:3px;padding:0">&nbsp;</td></tr>
+  <tr><td height="3" bgcolor="#7c5dff" style="${GRAD_BG};font-size:1px;line-height:3px;padding:0">&nbsp;</td></tr>
   <tr><td style="padding-top:10px">
     <div style="font-size:17px;font-weight:700;color:#351c75;margin:0 0 2px">${fullName}</div>
     <div style="font-size:13px;color:#676767;margin:0 0 2px">${displayTitle}</div>
