@@ -20,8 +20,8 @@
   --card:#fff;
   --radius:16px;
 }
-html{font-family:'Inter',sans-serif;font-size:15px;color:var(--text);background:var(--bg)}
-body{min-height:100vh}
+html{font-family:'Inter',sans-serif;font-size:15px;color:var(--text);background:var(--bg);overflow-x:hidden}
+body{min-height:100vh;overflow-x:hidden;max-width:100vw}
 
 /* ── HEADER ── */
 .header{
@@ -204,8 +204,8 @@ body{min-height:100vh}
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
   .layout{grid-template-columns:1fr}
-  .form-panel{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
-  .preview-panel{min-height:auto}
+  .form-panel{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border);min-width:0}
+  .preview-panel{min-height:auto;min-width:0}
 }
 @media(max-width:768px){
   .header-title{font-size:13px}
@@ -498,8 +498,8 @@ body{min-height:100vh}
 <div class="toast" id="toast"></div>
 
 <script>
-const LOGO_URL = "https://gtmpurchaseplus.com/signature-generator/logo-pp.png";
-const POWERED_BY_URL = "https://gtmpurchaseplus.com/signature-generator/powered-by-marketboomer.png";
+const LOGO_URL = "https://cdn.prod.website-files.com/62b4fd72b25b1bcbcba262e8/6a41e9fb3bd60c25a7ee497b_logo-pp.png";
+const POWERED_BY_URL = "https://cdn.prod.website-files.com/62b4fd72b25b1bcbcba262e8/6a41ea19b31b0b66d1c8b5e1_powered-by-marketboomer.png";
 
 const GRAD = "color:#7c5dff";
 const GRAD_BG = "background:linear-gradient(90deg,#a956ff,#7c5dff,#3766fe)";
